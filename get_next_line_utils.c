@@ -6,20 +6,20 @@
 /*   By: edarnand <edarnand@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 12:46:04 by edarnand          #+#    #+#             */
-/*   Updated: 2024/11/22 09:48:50 by edarnand         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:42:39 by edarnand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	c_in_str(char *s, char c)
+int	find_nl(char *s)
 {
 	int	i;
 
 	i = 0;
 	while (s != NULL && s[i] != '\0')
 	{
-		if (s[i] == c)
+		if (s[i] == '\n')
 			return (i);
 		i++;
 	}
@@ -61,5 +61,23 @@ char	*ft_strjoin(char *s1, char *s2)
 		i++;
 	}
 	new[s1_len + s2_len] = '\0';
+	return (new);
+}
+
+char	*ft_strndup(char *s, int n)
+{
+	int		i;
+	char	*new;
+
+	i = 0;
+	new = malloc(sizeof(char) * (n + 1));
+	if (new == NULL)
+		return (NULL);
+	while (i < n)
+	{
+		new[i] = s[i];
+		i++;
+	}
+	new[i] = '\0';
 	return (new);
 }

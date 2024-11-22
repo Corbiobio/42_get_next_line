@@ -6,7 +6,7 @@
 /*   By: edarnand <edarnand@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 12:20:31 by edarnand          #+#    #+#             */
-/*   Updated: 2024/11/22 15:55:41 by edarnand         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:46:09 by edarnand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,26 @@ char	*get_next_line(int fd)
 	char		*tmp;
 	int			byte;
 
+	if (BUFFER_SIZE <= 0)
+		return (0);
 	tmp = NULL;
 	byte = 0;
 	byte = read_line(fd, &line, byte);
-	if (byte == -1)
-	{
-		if (line != NULL)
-		{
-			free(line);
-			line = NULL;
-		}
-		return (NULL);
-	}
-	if (byte == BUFFER_SIZE || c_in_str(line, '\n') >= 0)
+	if (byte == BUFFER_SIZE || find_nl(line) >= 0)
 	{
 		tmp = get_new_line(line);
-		//printf("__tmp %s__", tmp);
 		clear_line(&line);
 		return (tmp);
 	}
-	if (line != NULL && ft_strlen(line) >= 1)
-		tmp = ft_strdup(line);
+	if (byte != -1 && line != NULL && ft_strlen(line) >= 1)
+		tmp = ft_strndup(line, ft_strlen(line));
 	if (line != NULL)
 	{
 		free(line);
 		line = NULL;
 	}
+	if (byte == -1)
+		return (NULL);
 	return (tmp);
 }
 
@@ -55,8 +49,8 @@ void	clear_line(char **line)
 	line_len = 0;
 	while ((*line)[line_len] != '\n')
 		line_len++;
-	line_len++;
-	new = ft_strdup(*line + line_len);
+	line_len += 1;
+	new = ft_strndup(*line + line_len, ft_strlen(*line + line_len));
 	free(*line);
 	*line = new;
 }
@@ -65,22 +59,12 @@ char	*get_new_line(char *line)
 {
 	char	*new;
 	int		len;
-	int		i;
 
 	len = 0;
 	while (line[len] != '\n')
 		len++;
 	len++;
-	new = malloc(sizeof(char) * (len + 1));
-	if (new == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		new[i] = line[i];
-		i++;
-	}
-	new[len] = '\0';
+	new = ft_strndup(line, len);
 	return (new);
 }
 
@@ -92,10 +76,10 @@ int	read_line(int fd, char **line, int byte)
 	tmp = NULL;
 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buff == NULL)
-		return (-10);
+		return (-1);
 	buff[BUFFER_SIZE] = '\0';
 	byte = BUFFER_SIZE;
-	while (byte == BUFFER_SIZE && c_in_str(*line, '\n') == -1)
+	while (byte == BUFFER_SIZE && find_nl(*line) == -1)
 	{
 		byte = read(fd, buff, BUFFER_SIZE);
 		if (byte <= 0)
@@ -110,24 +94,4 @@ int	read_line(int fd, char **line, int byte)
 	}
 	free(buff);
 	return (byte);
-}
-
-char	*ft_strdup(char *s)
-{
-	int		len;
-	int		i;
-	char	*new;
-
-	len = ft_strlen(s);
-	i = 0;
-	new = malloc(sizeof(char) * (len + 1));
-	if (new == NULL)
-		return (NULL);
-	while (i < len)
-	{
-		new[i] = s[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
 }
