@@ -1,0 +1,7 @@
+.vscode
+Makefile
+test.txt
+a.out
+old/
+old2/
+main.c
