@@ -6,7 +6,7 @@
 /*   By: edarnand <edarnand@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 12:46:04 by edarnand          #+#    #+#             */
-/*   Updated: 2024/11/22 17:42:39 by edarnand         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:19:53 by edarnand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 int	find_nl(char *s)
 {
-	int	i;
-
-	i = 0;
-	while (s != NULL && s[i] != '\0')
+	while (s != NULL && *s != '\0')
 	{
-		if (s[i] == '\n')
-			return (i);
-		i++;
+		if (*s == '\n')
+			return (1);
+		s++;
 	}
 	return (-1);
 }
@@ -80,4 +77,11 @@ char	*ft_strndup(char *s, int n)
 	}
 	new[i] = '\0';
 	return (new);
+}
+
+char	*free_null(char **s)
+{
+	free(*s);
+	*s = NULL;
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: edarnand <edarnand@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 12:20:31 by edarnand          #+#    #+#             */
-/*   Updated: 2024/11/22 17:46:09 by edarnand         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:21:05 by edarnand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,15 @@ char	*get_next_line(int fd)
 	if (byte == BUFFER_SIZE || find_nl(line) >= 0)
 	{
 		tmp = get_new_line(line);
+		if (tmp == NULL && line != NULL)
+			return (free_null(&line));
 		clear_line(&line);
 		return (tmp);
 	}
 	if (byte != -1 && line != NULL && ft_strlen(line) >= 1)
 		tmp = ft_strndup(line, ft_strlen(line));
 	if (line != NULL)
-	{
-		free(line);
-		line = NULL;
-	}
+		free_null(&line);
 	if (byte == -1)
 		return (NULL);
 	return (tmp);

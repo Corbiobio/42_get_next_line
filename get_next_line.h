@@ -6,7 +6,7 @@
 /*   By: edarnand <edarnand@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:54:05 by edarnand          #+#    #+#             */
-/*   Updated: 2024/11/22 17:41:59 by edarnand         ###   ########.fr       */
+/*   Updated: 2024/11/26 11:19:50 by edarnand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int		read_line(int fd, char **line, int byte);
 char	*get_new_line(char *line);
 void	clear_line(char **line);
 char	*ft_strndup(char *s, int n);
+char	*free_null(char **s);
 
 #endif
